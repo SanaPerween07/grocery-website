@@ -45,26 +45,6 @@ export const isSellerAuth = async (req, res) => {
 }
 
 
-// export const isSellerAuth = (req, res) => {
-//     const token = req.cookies.SellerToken;
-
-//     if (!token) {
-//         return res.status(401).json({ success: false, message: "No token, authorization denied" });
-//     }
-
-//     try {
-//         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//         req.email = decoded.email;
-//         if(!decoded){
-//             res.status(400).json({ success: false, message: "Invalid token" });
-//         }
-//         return res.status(200).json({success:true , data: decoded?.email});
-
-//     } catch (error) {
-//         return res.status(401).json({ success: false, message: "Invalid token" });
-//     }
-// };
-
 
 
 
