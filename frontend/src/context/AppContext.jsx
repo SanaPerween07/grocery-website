@@ -73,7 +73,8 @@ const AppContextProvider = ({ children }) => {
   };
 
   const updateCartItem = (itemId, quantity) => {
-    const cartData = structuredClone(cartItems);
+    const cartData = { ...cartItems }; // instead of structuredClone
+
     cartData[itemId] = quantity;
     setCartItems(cartData);
     toast.success("Cart Updated");
@@ -112,24 +113,29 @@ const AppContextProvider = ({ children }) => {
   }, []);
 
 
-  useEffect(()=>{
-    const updateCart = async () => {
-      try{
-        const {data} = await axios.post('/api/cart/update', {cartItems})
-
-        if(!data.success){
-          toast.error(data.message)
+  useEffect(() => {
+    const debounceTimeout = useRef(null)
+  
+    if (user) {
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current)
+      }
+  
+      debounceTimeout.current = setTimeout(async () => {
+        try {
+          const { data } = await axios.post('/api/cart/update', { cartItems })
+  
+          if (!data.success) {
+            toast.error(data.message)
+          }
+        } catch (error) {
+          toast.error(error.message)
         }
-      }
-      catch(error){
-        toast.error(error.message)
-      }
+      }, 500) // debounce time (in ms)
     }
-
-    if(user){
-      updateCart()
-    }
-  },[cartItems])
+  
+    return () => clearTimeout(debounceTimeout.current)
+  }, [cartItems])
 
   const value = {
     user,
