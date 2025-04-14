@@ -1,5 +1,5 @@
 import cookieParser from 'cookie-parser'
-import express, { application } from 'express'
+import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import connectDB from './configs/db.js'
@@ -11,35 +11,34 @@ import cartRouter from './routes/cartRoute.js'
 import addressRouter from './routes/addressRoute.js'
 import orderRouter from './routes/orderRoute.js'
 
-
 const app = express()
 const PORT = process.env.PORT || 4000
 
 await connectDB()
 await connectCloudinary()
 
-const allowedOrigins = ['http://localhost:5173', 'https://green-cart-pi.vercel.app'];
- 
-app.use(express.json())
-app.use(
-  cors({
-    origin: allowedOrigins,   
-    credentials: true,        
-  })
-);
-app.use(cookieParser());
+const allowedOrigins = ['http://localhost:5173', 'https://green-cart-pi.vercel.app']
 
-app.get('/' , (req , res) => {
-    res.send("API working")
+app.use(cookieParser())
+app.use(express.json())
+
+// ✅ Apply CORS globally
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}))
+
+app.get('/', (req, res) => {
+  res.send("API working")
 })
 
-app.use('/api/user' , userRouter)
-app.use('/api/seller' , sellerRouter)
-app.use('/api/product' , productRouter)
-app.use('/api/cart' , cartRouter)
-app.use('/api/address' , addressRouter)
-app.use('/api/order' , orderRouter)
+app.use('/api/user', userRouter)
+app.use('/api/seller', sellerRouter)
+app.use('/api/product', productRouter)
+app.use('/api/cart', cartRouter)
+app.use('/api/address', addressRouter)
+app.use('/api/order', orderRouter)
 
-app.listen(PORT , () => {
-    console.log(`Server running on port ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
 })
