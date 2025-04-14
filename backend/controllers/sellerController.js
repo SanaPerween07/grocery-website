@@ -36,7 +36,8 @@ export const sellerLogin = async(req, res) => {
 // http://localhost:4000/api/seller/is-auth
 export const isSellerAuth = async (req, res) => {
     try{
-        return res.json({success:true ,user})
+        const email = req.sellerEmail;
+        return res.json({success:true ,email})
     }
     catch(error){
         console.log(error.message)
