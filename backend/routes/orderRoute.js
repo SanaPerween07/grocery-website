@@ -2,7 +2,6 @@ import express from 'express'
 import authUser from '../middlewares/authUser.js'
 import { getAllOrders, getUserOrders, placeOrderCOD, placeOrderStripe, stripeWebHooks } from '../controllers/orderController.js'
 import authSeller from '../middlewares/authSeller.js'
-import bodyParser from 'body-parser' 
 
 const orderRouter = express.Router()
 
@@ -10,6 +9,5 @@ orderRouter.post('/cod', authUser, placeOrderCOD)
 orderRouter.post('/user', authUser, getUserOrders)
 orderRouter.post('/seller', authSeller, getAllOrders)
 orderRouter.post('/stripe', authUser, placeOrderStripe)
-orderRouter.post('/webhook', bodyParser.raw({ type: 'application/json' }), stripeWebHooks)
 
 export default orderRouter 
