@@ -9,7 +9,7 @@ const Orders = () => {
 
     const fetchOrders = async () => {
         try{
-            const {data} = await axios.post("/api/order/seller")
+            const {data} = await axios.post(("/api/order/seller"), {}, { withCredentials: true });
             if(data.success){
                 setOrders(data.orders)
             }
