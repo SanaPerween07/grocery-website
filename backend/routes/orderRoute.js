@@ -9,5 +9,7 @@ orderRouter.post('/cod' , authUser, placeOrderCOD)
 orderRouter.post('/user' , authUser, getUserOrders)
 orderRouter.post('/seller' , authSeller, getAllOrders)
 orderRouter.post('/stripe' , authUser, placeOrderStripe)
+orderRouter.post('/webhook', bodyParser.raw({ type: 'application/json' }), stripeWebHooks)
+
 
 export default orderRouter

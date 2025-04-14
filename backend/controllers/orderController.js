@@ -46,7 +46,9 @@ export const placeOrderCOD = async (req, res) => {
 // /api/order/stripe
 export const placeOrderStripe = async (req, res) => {
   try {
-    const { userId, items, address } = req.body;
+    const { items, address } = req.body;
+    const userId = req.userId;
+
     const { origin } = req.headers;
 
     if (!address || items.length === 0) {
@@ -89,7 +91,8 @@ export const placeOrderStripe = async (req, res) => {
         product_data: {
           name: item.name,
         },
-        unit_amount: Math.floor(item.price + item.price * 0.02) * 100,
+        unit_amount: Math.floor(item.price * 1.02 * 100)
+
       },
       quantity: item.quantity,
     }));
@@ -101,8 +104,8 @@ export const placeOrderStripe = async (req, res) => {
       cancel_url: `${origin}/cart`,
       metadata: {
         orderId: order._id.toString(),
-        userId,
-      },
+        userId: userId.toString(),
+      }      
     });
 
     return res.json({ success: true, url: session.url });
