@@ -10,8 +10,6 @@ import productRouter from './routes/productRoute.js'
 import cartRouter from './routes/cartRoute.js'
 import addressRouter from './routes/addressRoute.js'
 import orderRouter from './routes/orderRoute.js'
-
-import bodyParser from 'body-parser'; // <-- Missing import
 import { stripeWebHooks } from './controllers/orderController.js'; // <-- Missing import
 
 const app = express()
@@ -23,7 +21,7 @@ await connectCloudinary()
 const allowedOrigins = ['http://localhost:5173', 'https://green-cart-pi.vercel.app']
 
 // Webhook route should be defined before other routes
-app.post('/api/order/webhook', bodyParser.raw({ type: 'application/json' }), stripeWebHooks);
+app.post('/stripe', express.raw({type: 'application/json'}) , stripeWebHooks)
 
 app.use(cookieParser())
 app.use(express.json())
