@@ -20,6 +20,7 @@ export const AddAddress = () => {
   const { axios, user, navigate } = useContext(AppContext);
 
   const [address, setAddress] = useState({
+    userId: user._id, 
     firstName: "",
     lastName: "",
     email: "",
